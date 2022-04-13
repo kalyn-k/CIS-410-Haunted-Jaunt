@@ -17,7 +17,7 @@ public class LightFlicker : MonoBehaviour
     public Renderer flickeringRenderer;
     public FlickerMode flickerMode;
     public float lightIntensityMin = 1.25f;
-    public float lightIntensityMax = 2.25f;
+    public float lightIntensityMax = 5f;
     public float flickerDuration = 0.075f;
     public AnimationCurve intensityCurve;
 
@@ -61,7 +61,8 @@ public class LightFlicker : MonoBehaviour
 
     void ChangeRandomFlickerLightIntensity ()
     {
-        m_FlickerLightIntensity = Random.Range(lightIntensityMin, lightIntensityMax);
+        //m_FlickerLightIntensity = Random.Range(lightIntensityMin, lightIntensityMax);
+        m_FlickerLightIntensity = Mathf.Lerp(m_FlickerLightIntensity, lightIntensityMax, 0.5f* Time.deltaTime);
 
         m_Timer = 0f;
     }
