@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerMovement : MonoBehaviour
 {
     public float turnSpeed = 20f;
+    public TextMeshProUGUI DistanceText;
+    public GameObject GameEnding;
+    
 
     Animator m_Animator;
     Rigidbody m_Rigidbody;
@@ -46,11 +50,21 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 desiredForward = Vector3.RotateTowards (transform.forward, m_Movement, turnSpeed * Time.deltaTime, 0f);
         m_Rotation = Quaternion.LookRotation (desiredForward);
+        DotProductDistance ();
     }
 
     void OnAnimatorMove ()
     {
         m_Rigidbody.MovePosition (m_Rigidbody.position + m_Movement * m_Animator.deltaPosition.magnitude);
         m_Rigidbody.MoveRotation (m_Rotation);
+    }
+    
+    void DotProductDistance ()
+    {
+        // Gets a vector that points from the player's position to the target's.
+        Vector3 gameEnd = GameEnding.transform.position;
+        Vector3 heading = gameEnd - transform.position;
+        float distance = Mathf.Sqrt(Vector3.Dot(heading, heading));
+        DistanceText.text = "Distance till end: " + Mathf.Round(distance);
     }
 }
